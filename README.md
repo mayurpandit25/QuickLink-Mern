@@ -1,4 +1,4 @@
-# QuickLink - Basic MERN URL Shortener
+# QuickLink – Basic MERN URL Shortener
 
 A beginner-friendly URL shortener built with React, Node.js, Express, MongoDB Atlas and Mongoose.
 
@@ -12,7 +12,45 @@ A beginner-friendly URL shortener built with React, Node.js, Express, MongoDB At
 - Count redirects.
 - Health endpoint for server checks.
 
-## Project structure
+## Technology Stack
+
+| Category | Technology |
+|---|---|
+| Frontend | React.js |
+| Frontend Build Tool | Vite |
+| Styling | CSS |
+| Backend | Node.js |
+| Backend Framework | Express.js |
+| Database | MongoDB Atlas |
+| ODM | Mongoose |
+| Environment Variables | dotenv |
+| HTTP Client | Axios |
+| Short Code Generation | Nano ID |
+| Frontend Icons | Lucide React |
+| Deployment | AWS EC2 |
+| Web Server | Nginx |
+| Process Manager | PM2 |
+| Version Control | Git & GitHub |
+
+## Database Details
+
+- **Database Name:** `quicklink`
+- **Database Type:** MongoDB
+- **Collection Name:** `urls`
+
+The application stores URL information in the `urls` collection.
+
+Each URL document contains:
+- `_id` – Unique document identifier.
+- `originalUrl` – Original long URL.
+- `shortCode` – Generated short URL code.
+- `clicks` – Number of redirects.
+- `createdAt` – Record creation timestamp.
+- `updatedAt` – Last update timestamp.
+
+MongoDB creates the database and collection automatically when the first URL document is inserted.
+
+## Project Structure
 
 ```text
 quicklink-mern/
@@ -23,10 +61,11 @@ quicklink-mern/
 │   ├── package.json
 │   └── server.js
 └── frontend/
-    ├── src/App.jsx
-    ├── src/App.css
-    ├── src/index.css
-    ├── src/main.jsx
+    ├── src/
+    │   ├── App.jsx
+    │   ├── App.css
+    │   ├── index.css
+    │   └── main.jsx
     ├── .env.example
     ├── index.html
     └── package.json
@@ -46,37 +85,44 @@ quicklink-mern/
 4. Copy the MongoDB connection string.
 5. Replace the username, password and cluster host in the backend environment file.
 
+Database name: `quicklink`
+
 Do not commit your `.env` file or expose database credentials.
 
-## 2. Start the backend
+## 2. Start the Backend
 
-Open a terminal:
+Open a terminal from the project root:
 
 ```bash
 cd backend
 cp .env.example .env
 ```
 
-Edit `backend/.env` and set `MONGO_URI`. For local development, keep:
+Edit `backend/.env` and configure:
 
 ```env
 PORT=5000
+MONGO_URI=mongodb+srv://USERNAME:PASSWORD@YOUR-CLUSTER.mongodb.net/quicklink?retryWrites=true&w=majority
 FRONTEND_URL=http://localhost:5173
 PUBLIC_BASE_URL=http://localhost:5000
 ```
 
-Install and start:
+Install dependencies and start:
 
 ```bash
 npm install
 npm run dev
 ```
 
-The backend listens on `http://localhost:5000`.
+The backend listens on:
 
-Health check: http://localhost:5000/health
+`http://localhost:5000`
 
-## 3. Start the frontend
+Health check:
+
+`http://localhost:5000/health`
+
+## 3. Start the Frontend
 
 Open a second terminal from the project root:
 
@@ -87,15 +133,17 @@ npm install
 npm run dev
 ```
 
-Open the Vite URL, normally http://localhost:5173.
+Open the Vite URL, normally:
+
+`http://localhost:5173`
 
 ## REST API
 
-### Health check
+### Health Check
 
 `GET /health`
 
-### Create a short URL
+### Create a Short URL
 
 `POST /api/urls`
 
@@ -107,7 +155,7 @@ Request JSON:
 }
 ```
 
-### List saved URLs
+### List Saved URLs
 
 `GET /api/urls`
 
@@ -115,22 +163,8 @@ Request JSON:
 
 `GET /:shortCode`
 
-For example, `GET http://localhost:5000/AbCd123` redirects to the stored original URL.
+For example:
 
-## Manual deployment notes
+`GET http://localhost:5000/AbCd123`
 
-For a single-EC2 deployment:
-
-- Build the frontend with `npm run build` and serve the `frontend/dist` directory through Nginx.
-- Run the backend with a process manager such as PM2.
-- Set `VITE_API_BASE_URL` to the public API origin before building the frontend.
-- Set backend `PUBLIC_BASE_URL` to the public origin used for short links.
-- Set backend `FRONTEND_URL` to the deployed frontend origin.
-- Configure MongoDB Atlas Network Access for the EC2 server. Prefer a restricted IP rule rather than `0.0.0.0/0`.
-- Configure HTTPS before using the application publicly.
-
-Vite environment variables are embedded at build time. Rebuild the frontend after changing `VITE_API_BASE_URL`.
-
-## Important
-
-This is a teaching/demo application. It does not include authentication, rate limiting, abuse reporting, custom domains, or link expiration. Before exposing it publicly, add abuse controls and operational protections.
+Redirects to the stored
