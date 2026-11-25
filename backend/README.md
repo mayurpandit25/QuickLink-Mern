@@ -23,14 +23,6 @@ This guide explains how to deploy the QuickLink Node.js backend application on a
              MongoDB Atlas
 ```
 
-## 2. Prerequisites
-
-- AWS EC2 Ubuntu instance
-- Docker Engine installed
-- MongoDB Atlas database
-- Backend source code
-- SSH access to EC2
-
 ## 3. Clone the Repository
 
 Connect to your EC2 instance and clone the project:
@@ -100,25 +92,6 @@ EXPOSE 5000
 CMD ["node", "server.js"]
 ```
 
-## 6. Create .dockerignore
-
-Inside the `backend` directory:
-
-```bash
-vim .dockerignore
-```
-
-Add:
-
-```text
-node_modules
-.env
-.git
-npm-debug.log
-```
-
-This prevents unnecessary files and sensitive environment configuration from being copied into the Docker image.
-
 ## 7. Build the Docker Image
 
 Make sure you are inside the `backend` directory:
@@ -144,17 +117,6 @@ docker run -d \
   --env-file .env \
   quicklink-backend:v1
 ```
-
-### Command Explanation
-
-| Option | Description |
-|---|---|
-| `docker run` | Creates and starts a container |
-| `-d` | Runs the container in detached mode |
-| `--name` | Assigns a container name |
-| `-p 5000:5000` | Maps host port 5000 to container port 5000 |
-| `--env-file .env` | Loads environment variables into the container |
-| `quicklink-backend:v1` | Docker image name and tag |
 
 ## 9. Verify the Deployment
 
@@ -290,24 +252,8 @@ docker logs quicklink-backend
 ```
 
 Verify:
+
 - MongoDB Atlas credentials are correct.
 - The EC2 public IP is allowed in MongoDB Atlas Network Access.
 - The `MONGO_URI` environment variable is configured correctly.
 - The backend application listens on `0.0.0.0` inside the container.
-
-## Deployment Summary
-
-| Component | Configuration |
-|---|---|
-| Application | QuickLink Backend |
-| Runtime | Node.js 22 |
-| Framework | Express.js |
-| Database | MongoDB Atlas |
-| Container Engine | Docker |
-| Container Name | quicklink-backend |
-| Docker Image | quicklink-backend:v1 |
-| Application Port | 5000 |
-| Host Port | 5000 |
-| Deployment Platform | AWS EC2 Ubuntu |
-
-**Deployment completed:** QuickLink Backend is running inside a Docker container on AWS EC2 and connected to MongoDB Atlas.
